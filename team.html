@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Team</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding-bottom: 80px;
+      background: #f9f9f9;
+    }
+
+    h1, h2 {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .ref-list {
+      background: white;
+      padding: 15px;
+      margin: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .ref-item {
+      margin: 6px 0;
+    }
+
+    .earning {
+      font-weight: bold;
+      text-align: center;
+      color: green;
+    }
+    
+    
+    nav {
+    font-family: sans-serif;
+    background: #fff;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+  }
+
+  nav a {
+    text-decoration: none;
+    font-size: 14px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+  }
+
+  nav a.active {
+    color: var(--primary);
+    font-weight: bold;
+  }
+
+  nav a.active i {
+    color: var(--primary);
+  }
+
+  nav i {
+    margin-right: 6px;
+  }
+
+    /* Bottom nav */
+    #bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: #fff;
+      border-top: 1px solid #ccc;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 20px 0px;
+      height: x;
+      box-shadow: 0 -1px 5px rgba(0,0,0,0.05);
+    }
+
+    #bottom-nav a {
+      text-align: center;
+      font-size: 15px;
+      text-decoration: none;
+      color: #555;
+      font-weight: bold;
+    }
+
+    #bottom-nav i {
+      display: block;
+      font-size: 20px;
+      margin-bottom: 3px;
+    }
+
+    /* Top nav for desktop */
+    
+     #top-nav {
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee ;
+    top: 0;
+    z-index: 999;
+    background: #fff;
+    margin: 1px;
+  }
+ 
+    @media screen and (min-width: 768px) {
+      #top-nav {
+        background:#fff ;
+        color: var(--text);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 20px;
+        gap: 0px;
+      }
+       #top-nav .centre {
+           display: flex;
+           justify-content: space-between;
+      gap: 20px;
+      font-size: 30px;
+  }
+
+      #top-nav h2 {
+        margin: 0;
+        font-size: 21px;
+        text-decoration: none;
+      }
+
+      #top-nav a {
+        
+        text-decoration: none;
+        justify-content: space-between;
+        font-size: 14px;
+      }
+
+      #bottom-nav {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Desktop top nav -->
+  <nav id="top-nav">
+    <h2>My Investment Platform</h2>
+    <div class="centre">
+      <a href="home.html">Home</a>
+      <a href="index.html">Invest</a>
+      <a href="team.html">Team</a>
+      <a href="profile.html">Profile</a>
+      </div>
+
+  </nav>
+
+  <div style="padding: 20px; text-align: left;">
+    <h2> UID: <span id="userUID">Loading...</span></h2>
+    <p>Your Referral Link:</p>
+    <input id="refLink" value="your-referral-link-here" style="width: 80%; padding: 10px; text-align: center;" />
+    <button id="copyBtn">Copy</button>
+  </div>
+
+  <h1>Your Referral Team</h1>
+
+  <h2>Level 1 (10%)</h2>
+  <div class="ref-list" id="level1"></div>
+
+  <h2>Level 2 (5%)</h2>
+  <div class="ref-list" id="level2"></div>
+
+  <h2>Level 3 (3%)</h2>
+  <div class="ref-list" id="level3"></div>
+
+  <h2>Total Commission</h2>
+  <p class="earning" id="totalCommission">$0.00</p>
+
+  <!-- Bottom navigation -->
+  <nav id="bottom-nav">
+    <a href="home.html">
+      <i class="fas fa-house"></i>Home
+    </a>
+    <a href="index.html">
+      <i class="fas fa-coins"></i>Invest
+    </a>
+    <a href="team.html">
+      <i class="fas fa-users"></i>Team
+    </a>
+    <a href="profile.html">
+      <i class="fas fa-user-circle"></i>Profile
+    </a>
+  </nav>
+  
+                  <script>
+  // Automatically highlight active tab based on current URL
+  const path = window.location.pathname.split('/').pop();
+  const pageMap = {
+    'home.html': 'home',
+    'index.html': 'invest',
+    'team.html': 'team',
+    'profile.html': 'profile'
+  };
+  const activePage = pageMap[path];
+  document.querySelectorAll('.nav-link').forEach(link => {
+    if (link.dataset.page === activePage) {
+      link.classList.add('active');
+    }
+  });
+</script>
+
+  <script>
+    const currentUID = localStorage.getItem('uid');
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+
+    const getRefs = (uid) => users.filter(u => u.referredBy === uid);
+
+    let level1 = getRefs(currentUID);
+    let level2 = level1.flatMap(l1 => getRefs(l1.uid));
+    let level3 = level2.flatMap(l2 => getRefs(l2.uid));
+
+    const renderList = (level, elementId, percent) => {
+      const container = document.getElementById(elementId);
+      let total = 0;
+
+      level.forEach(user => {
+        const capital = user.capital || 0;
+        const earning = capital * (percent / 100);
+        total += earning;
+
+        const item = document.createElement('div');
+        item.className = 'ref-item';
+        item.innerHTML = `${user.username} (${user.uid}) — ₦${earning.toFixed(2)}`;
+        container.appendChild(item);
+      });
+
+      return total;
+    };
+
+    const total1 = renderList(level1, 'level1', 10);
+    const total2 = renderList(level2, 'level2', 5);
+    const total3 = renderList(level3, 'level3', 3);
+
+    const totalCommission = total1 + total2 + total3;
+    document.getElementById('totalCommission').textContent = `₦${totalCommission.toFixed(2)}`;
+  
+     // Load UID and referral link
+  const uid = localStorage.getItem('uid') || 'UID0000';
+  document.getElementById('userUID').textContent = uid;
+
+  const refLink = `${window.location.origin}/register.html?ref=${uid}`;
+  document.getElementById('refLink').value = refLink;
+  document.getElementById("copyBtn") .addEventListener("click", function(){ varcopyText =document.getElementById("reflink") ; copyText.select();
+    document.execCommand("copy");
+    alert("copied: "+ copyText.value);
+  });
+  </script>
+
+</body>
+</html>
