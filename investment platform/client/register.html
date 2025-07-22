@@ -1,0 +1,395 @@
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .register-box {
+      background: #fff;
+      padding: 40px 60px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .register-box h2 {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .register-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .register-box button {
+      width: 100%;
+      background: #007bff;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .register-box .links {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .register-box .links a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .register-box .links a:hover {
+      text-decoration: underline;
+    }
+    @media (max-width:500px) {
+      .login-box {
+        padding: 20px;
+      }
+      
+    }
+  </style>
+</head>
+<body>
+  <div class="register-box">
+    <h2>Create Account</h2>
+    <form id="registerForm">
+      <input type="text" id="username" placeholder="Username" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit">Register</button>
+    </form>
+
+    <div class="links">
+      <a href="login.html">Already have an account? Login</a>
+    </div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const ref = urlParams.get('ref');
+
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const uid = 'UID' + String(Date.now()).slice(-5);
+      const username = document.getElementById('username').value;
+
+      localStorage.setItem('uid', uid);
+      localStorage.setItem('username', username);
+      if (ref) {
+        localStorage.setItem('referredBy', ref);
+      }
+
+      alert('Registration successful! Your UID is: ' + uid);
+      window.location.href = 'login.html';
+    });
+    
+    
+            const ref = urlParams.get('ref');
+if (ref) {
+  localStorage.setItem('referredBy', ref);
+}
+
+
+            // Store the new user in the "users" list
+let users = JSON.parse(localStorage.getItem('users')) || [];
+
+users.push({
+  uid: uid,
+  username: username,
+  referredBy: ref || null,
+  capital: 0  // will be used for commission
+});
+
+localStorage.setItem('users', JSON.stringify(users));
+  </script>
+  
+  
+</body>
+</html>-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .register-box {
+      background: #fff;
+      padding: 40px 60px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .register-box h2 {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .register-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .register-box button {
+      width: 100%;
+      background: #007bff;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .register-box .links {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .register-box .links a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .register-box .links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="register-box">
+    <h2>Create Account</h2>
+    <form id="registerForm">
+      <input type="text" id="username" placeholder="Username" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <input type="text" id="referralCode" placeholder="Referral Code (Optional)" />
+      <button type="submit">Register</button>
+    </form>
+
+    <div class="links">
+      <a href="login.html">Already have an account? Login</a>
+    </div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const ref = urlParams.get('ref');
+
+    // If referral code is in the URL, pre-fill the input
+    if (ref) {
+      document.getElementById('referralCode').value = ref;
+    }
+
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const uid = 'UID' + String(Date.now()).slice(-5);
+      const username = document.getElementById('username').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const referredBy = document.getElementById('referralCode').value || null;
+
+      // Save some individual values
+      localStorage.setItem('uid', uid);
+      localStorage.setItem('username', username);
+      if (referredBy) {
+        localStorage.setItem('referredBy', referredBy);
+      }
+
+      // Store entire user in a users list
+      let users = JSON.parse(localStorage.getItem('users')) || [];
+      users.push({
+        uid,
+        username,
+        email,
+        password, // Only for demo
+        referredBy,
+        capital: 0
+      });
+      localStorage.setItem('users', JSON.stringify(users));
+
+      alert('Registration successful! Your UID is: ' + uid);
+      window.location.href = 'login.html';
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .register-box {
+      background: #fff;
+      padding: 30px 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .register-box h2 {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .register-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .register-box button {
+      width: 100%;
+      background: #007bff;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .register-box .links {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .register-box .links a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .register-box .links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="register-box">
+    <h2>Create Account</h2>
+    <form id="registerForm">
+        
+      <input type="text" placeholder="Username" required />
+      <input type="email" placeholder="Email" required />
+      <input type="password" placeholder="Password" required />
+      <button type="submit">Register</button>
+      
+    </form>
+
+    <div class="links">
+      <a href="login.html">Already have an account? Login</a>
+    </div>
+  </div>
+  
+  
+
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Registration successful!');
+      window.location.href = 'login.html';
+      
+      // Inside registerForm submit event
+const uid = 'UID' + String(Date.now()).slice(-4); // Sample UID like UID1234
+localStorage.setItem('uid', uid);  // Save to browser
+alert('Registration successful! Your UID is: ' + uid);
+window.location.href = 'login.html';
+
+// At top of register.html
+const urlParams = new URLSearchParams(window.location.search);
+const ref = urlParams.get('ref');
+
+if (ref) {
+  localStorage.setItem('referredBy', ref); // Save who referred the user
+  console.log('Referred by:', ref);
+}
+    });
+  </script>
+</body>
+</html>-->
